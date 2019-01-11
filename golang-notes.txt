@@ -1,0 +1,274 @@
+-programs run in package main
+-by convention, package name is the last name of the import path (e.g: math/rand: rand is package)
+-import statements are "factored" (put into parentheses)
+-name is exported when begins in Capital letter, so they're accessible from outside. So, in package math, Pi is exported and reachable (math.Pi)
+-when 2 or more params have same type, you can write: x, y int
+-func can return more than one result. func swap(x, y string) (string, string) { return y, x }
+-a, b := "foo", "bar" is multiple assignment in line
+-naked return: return w/o arguments, get vars at the top of the func, on return type declaration
+func doSome() (a string, b string) {
+	a = "foo"
+	b = "bar"
+
+	return // get a, b
+}
+
+-var statement: can be at package or func level, and declares list of variables
+-var a = 1 // type is omitted, because initializer is present and it is inferred from it
+-:= operator is not available ouside function. In func, a:= 2 is used as alias of var a = 2 //note: inferred type
+-remember: outside a func, every statement begins w/ a keyword (var, func, ...)
+-example var outside a func:
+var (
+	toBe bool = false
+	maxInt uint64 = 1<<64 - 1
+)
+-variables declared w/o explicit value, are set to "zero value": 0 for numeric, false for boolean, "" for string
+-Type conversion: T(v) converts T to v. Example: demo := 10; var x float64 = float64(demo) // or x := float64(demo)
+-Type conversion must be explicited:  
+-get type of var: fmt.Printf("%T", x)
+-when type is not specified, is inferred from right side value: c := "foo" // fmt.Printf("%T", c) // will return string
+-constant: cannot be declared with := syntax, but only like that: const FOO = "alberto"
+-const can be string, boolean, numeric
+-if not specified nothing, untyped constant takes needed type (e.g: a := 1<<100 //that's > than int64)
+-for loop hasn't parentheses, is the only loop construct, with init;condition;post (for i:=0; i<10;i++ {//do something })
+-for loop: init and post are optional (for ;sum<10; { sum += 10 })
+-for loop: can be spelled like a while: for some < 100 {//do some }
+-for loop: infinite: for { // do something }
+-switch case: break is not needed (is automatically called when matched)
+example:
+	os := runtime.GOOS
+	switch os {
+	case "linux":
+		fmt.Println("linux")
+	case "windows":
+		fmt.Println("windows")
+	default:
+		fmt.Println("boooo")
+	}
+-manipulate date: use time //date arithmentics is easy, look at time.Now().Month() + 3
+-defer statement: defer execution until surrounding function return its value (value is returned, then deferred statement is executed
+-deferred statements can be stacked (they're executed in order)
+-go has pointers: a pointer holds memory address of a value
+-pointer type: *T. Is a pointer to that value. E.g: var a *int
+-dereferencing (or indirecting) example:
+	var p *string //generate a pointer to a string type
+	var a = "some string" //create the var to point to
+	p = &a //assign to pointer the var reference
+	*p = "edited string" //access to a by its pointer, changing val
+	 
+
+	fmt.Printf("%v", p) //gets: 0xc4200681c0
+-there is NOT pointer arithmetic
+-struct: collection of fields 
+-example:
+type demoStruct struct {
+		x int
+		y int
+		z int
+	}
+
+	var a demoStruct
+	a.x = 10
+	a.y = 20
+	a.z = 30
+
+	fmt.Println(a.x, a.y, a.z) //gets 10 20 30
+	fmt.Println(demoStruct{1, 2, 3}) //gets {1 2 3}
+	
+-other struct example:
+	type demoStruct struct {
+		x int
+		y int
+		z int
+	}
+
+	var a = demoStruct{10, 20, 30}
+	a.x = 15
+	fmt.Println(a.x, a.y, a.z)
+-other example w/ pointers to struct:
+	type Triangle struct {
+		x int
+		y int
+		z int
+	}
+	var p *Triangle
+
+	myTriangle := Triangle{10, 30, 50}
+
+	p = &myTriangle
+
+	(*p).x = 15 // ugly syntax
+	p.x = 15    // better syntax, golang allows it
+-arrays:
+-example:
+	a := [10]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+
+	var b [3]int
+
+	b[0] = 1
+	b[1] = 2
+	b[2] = 3
+
+	fmt.Println(a[5], b[1])
+-slice: dinamical size. slice1 := a[2:4] //remember: slice works as a reference, so editing slice1 you edit a too
+-array literals: declare array w/o its size
+-example:
+	a := []int{1, 2, 3, 4, 5}
+	fmt.Println(a[0])
+-example - array of struct types:
+	type Foo struct {
+		i int
+		y string
+	}
+
+	a := []Foo{
+		{1, "foo"},
+		{2, "bar"},
+		{3, "baz"},
+	}
+	fmt.Println(a[0]) //gets {1 foo}
+
+-slice to begin or to end, like in Python: s[:1], or s[2:]
+-array length can be measured with len(inputArray)
+-check for empty slice must be done w/ nil: e.g: if is emptySlice == nil { //do somethins }
+-slice (array w/ dynamic size): []bool{true, false, false}
+-slice length: (len()) number of elements it contains
+-slice capacity: (cap()) number elements in its underlying array, counting from 1st element in slice
+-nil slice has len() and cap() of 0, and no underlying array
+-slice created w/ make: a:= make([]int, 5) //len(a) == 5
+-bidimensional slices:
+-example:
+	a := [][]int{
+		{1, 2, 3},
+		{1, 2, 3},
+	}
+
+	fmt.Println(a)
+-example bidimensional slice:
+	a := [][]int{
+		[]int{1, 2, 3},
+		[]int{1, 2, 3},
+	}
+
+	fmt.Println(a)
+-appending to slice:
+-example:
+    a := []int{1, 2, 3}
+	a = append(a, 4)
+	a = append(a, 5)
+
+	fmt.Println(a) //get [1 2 3 4 5]
+-example appending to empty slice:
+	var a []int
+	a = append(a, 1)
+	a = append(a, 2)
+
+	fmt.Println(a)
+-iterate over a slice or a map:
+	test := []int{1, 2, 3, 4, 5, 6}
+
+	for i, v := range test {
+		fmt.Println(i, v) //get index and value
+	}
+-on iteration, "_" is a keyword used as a placeholder
+-example iterate over slice or map, omitting one of index/value:
+	test := []int{1, 2, 3, 4, 5, 6, 7}
+	for _, v := range test {
+		fmt.Println(v)
+	}
+-note: on range iteration you can skip the ",v" part
+-map: is a key/value mapping
+-example: create a map and adding element
+	var demoMap map[string]int
+
+	demoMap = make(map[string]int)
+
+	demoMap["foo"] = 123
+	fmt.Println(demoMap["foo"])
+-example: create map, alternative inline syntax
+	var x map[int]int = make(map[int]int)
+	x[0] = 1
+	fmt.Println(x[0])
+-map literals: like structs, but w/ keys (required)
+	var x = map[int]int{
+		1: 423,
+		2: 123,
+		3: 342,
+	}
+	x[5] = 123
+	fmt.Println(x)
+-delete element from map:
+	var x = map[int]int{
+		1: 12123,
+		2: 20348,
+		3: 23847,
+	}
+
+	fmt.Println(x) //get map[1:12123 2:20348 3:23847]
+	delete(x, 2)
+	fmt.Println(x)//get map[1:12123 3:23847]
+
+-check if element is present:
+	var demoMap map[int]string
+
+	demoMap = map[int]string{
+		1: "foo",
+		2: "bar",
+	}
+
+	fmt.Println(demoMap[1])
+
+	var elem string
+	var isPresent bool
+	elem, isPresent = demoMap[1]
+	fmt.Println(elem, isPresent) //foo true
+-functions are values: can be used as function arguments and return values
+-closures: functions that references variables from outside its body
+-method: is method linked to type. can be described as function w/ receiver argument
+-example
+	type demo struct {
+		X int
+		Y int
+	}
+
+	func (v demo) sumIt(x int, y int) int {
+		return v.X + v.Y + x + y
+	}
+
+	func main() {
+		var o = demo{X: 1, Y: 2}
+		var res = o.sumIt(5, 6)
+		fmt.Println(res) //get 14
+	}
+-add method to custom type:
+	type integerImproved int
+
+	func (iIm integerImproved) saySome(inputPar string) string {
+		return strconv.Itoa(int(iIm)) + " plus -> " + inputPar
+	}
+
+	func main() {
+		fmt.Println(strconv.Itoa(100) + " something added")
+		var customNum integerImproved
+		customNum = 10
+		fmt.Println(customNum.saySome("added at the end"))
+	}
+-if you want to modify the receiver (for example, changing some struct member value), you can use pointer:
+	type Vertex struct {
+		X, Y float64
+	}
+
+	func (v Vertex) Abs() float64 {
+		return math.Sqrt(v.X*v.X + v.Y*v.Y)
+	}
+
+	func (v *Vertex) Scale(f float64) {
+		v.X = v.X * f
+		v.Y = v.Y * f
+	}
+
+	func main() {
+		v := Vertex{3, 4}
+		v.Scale(10)
+		fmt.Println(v.Abs())
+	}
