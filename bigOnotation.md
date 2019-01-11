@@ -1,4 +1,5 @@
 **_O(1)_**
+
 An algorithm that will always execute in the same time (or space) regardless of the size of the input data set.
 
 ```kotlin
@@ -6,6 +7,7 @@ fun isFirstElementNull(list: List<String?>) = list[0]==null
 ```
 
 **_O(n)_**
+
 An algorithm whose performance will grow linearly and in direct proportion to the size of the input data set. 
 Big O favors the worst-case performance scenario.
 
@@ -18,6 +20,7 @@ fun containsValue(list: List<String>, value: String): Boolean {
 } 
 ```
 **_O(k+n)_**
+
 *Counting sort*
 Counting sort is an efficient algorithm for sorting an array of elements that each have a non-negative integer key.
 The first loop goes through A, which has n elements. This step has a O(n) running time. k is the highest value in this list + 1.
@@ -42,6 +45,7 @@ fun counting_sort(list: MutableList<Int>) {
 }
 ```
 **_O(n^2)_**
+
 O(n^2) (or quadratic) represents an algorithm whose performance is directly proportional to the square of the size of the input data set. This is common with algorithms that involve nested iterations over the data set such as the example below.
 
 Detect duplicates
@@ -63,6 +67,7 @@ Deeper nested iterations will result in O(n^3), O(n^4) etc.
 
 
 **Bubble sort**
+
 Here’s an example of Bubble sort which is also O(n^2). For a list size of 4, this creates 6 comparisons and up to 6 swaps (which is (4-1)!). More info on factorial functions.
 
 In the first pass of the x loop, this simplistic algorithm bubbles the highest / lowest item to the top of the list. Then it does x+1 .. size-1 loops (for each subsequent pass of the x loop) to bubble the highest / lowest remaining item to the rest of the array indices.
