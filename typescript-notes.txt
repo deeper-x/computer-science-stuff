@@ -1,0 +1,119 @@
+-undefined: something not initialized
+-null: something not available
+-(typeof(someNotInitialized) == undefined) // true
+-type annotation function foo(): {a: number, b?: number} { //return {a:1,b:2} or return {a:1} ...}
+-undefined in a JSON value, make that makes that {"k": v} no more present
+-undefined in a JSON value, make that makes that {"k": null}
+-JSON support null values, but not undefined
+-TS core uses undefined. Doesnt use null.
+-closure: inner function that access to outer scope vars. Remember: outer can return inner, where you access outer vars
+-JS has 1 only number type: double-precision 64bit.
+-integers are safe (not rounded) in this range: Number.MAX_SAFE_INTEGER, Number.MIN_SAFE_INTEGER 
+-to check safety use Number.isSafeInteger(n)
+-manipulating decimals and big integers require/recommends you to use big.js
+-install it: npm install big.js @types/big.js
+-NaN: calculation not representable w/ a number
+-check for it: Number.isNaN(n)
+-Number.MAX_VALUE, Number.MIN_VALUE are number bounds
+-Outside this range you get Infinity (e.g.: Number.MAX_VALUE * 10000)
+-Number.MIN_VALUE: smallest non-zero representable. Smaller than this are converted to zero
+-truthy: something that's not false. False is: false, empty string, 0, NaN, null, undefined. Everything else is true, including empty objects, negative numbers, 
+- !! operator: first "!" convert it to boolean, second "!" invert it the boolean
+-object.__proto__: if object.someProperty is not found, it's checked object.__proto__.someProperty. At least, if still not found, it's checked object.__proto__.__proto__.someProperty. If still not found, someProperty is null.
+-every function has a property "prototype" (function Foo() {} // Foo.prototype exists but still undefined). prototype is where prototypical inheritance happens (e.g: SomeFunc.prototype.someMethod = function() { //do something.... } 
+-every function has a property .prototype, which has a member .constructor who points to function itself (Foo.prototype.contructor === Foo)
+-"new": calling "let someObject = new someFunction();" means someObject.__proto__ = someFunction.prototype 
+-"this" inside function: points to the created object returned from the function
+-child/base classes based on: function Child(){}; Child.prototype.__proto__ = Parent.prototype;
+-arrow function allows you to use "this" w/ consistency, w/o losing context. 
+-libraries like jQuery use "this" as a context (e.g: when you iterate on html element): in that case, don't use fat arrow, but save "this" into another var (like "_self = this"), then enter the context where "this" is used by jQuery, and use _self in these loops (pag. 46)
+-"var" is function scoped, "let" is block scoped
+-So, remember that functions create a new scope, inside the "{}". Remember that the parentheses in constructs like "if/then" DOESNT create a scope
+-ts compiler translates let -> to var, renaming var
+-in for loop, use "let". It allows you to not be surprised by unexpected behaviors of "var" variables
+-const: immutable variable. Must be initialized, cannot be only declared like var/let
+-const is block-scoped, like "let"
+-object destructuring: having object like x = { a: 1, b: 2, c: 3}, you can assign {a, b, c} = x
+-swap two variables: [x,y] = [y,x]
+-given a function signature (functionName(x,y,z) {//some code...}) you can set args from a list, w/apply: functionName.apply(null, [list, of, arguments])
+-you can use a better syntax, w/ spread operator, w/o calling apply: functionName(...args){//do something}
+-function declaration w/ spread args: function foo(...args){//....}
+-append to list w/ spread operator: args2 = [...args1, 4,5,6];
+-insert into object w/ spread operator: obj1 = {x: 'a', y: 'b'}; obj2 = {...obj1, z: 'c'}
+-for..in operator: iterates over array KEYS
+-for..of operator: iterates over array VALUES. You can use it also with string's chars
+-for..of works only on string and array (because it works on .length property, so you can use it only on objects w/ that property)
+-tagged templates: create a function to process/elaborate the string and/or placeholders. E.g: tagDemo `normal string with ${something} inside`. [pag. 71]
+-Promise: introduced to bring "synchronous style" error to async/callback code
+-Promise states: PENDING: if has a value becomes FULLFILLED, otherwise REJECTED with a reason.
+-let demoPromise = new Promise( (resolve, reject) => { //do something... }
+-now demoPromise produce a .then() if resolved, otherwise a .catch(). They're the basis of promise's chainability
+-generator: function* someGenerator() { yield blah //....}
+-generator object follows iterator object
+-async function foo() { await promiseDemo() }: supported from ES6
+-compilation context: group of files analyzed from TS, info about compiler, ... everything defined in tsconfig.json
+-compilerOptions: all directives
+-tsc check for tsconfig.json in current dir
+-We have 2 types of declaration spaces: 
+-Type declaration space: defines stuff that can be used as a Type annotation (class Foo {}; type Bar = {}; ...). You can define stuff w/ these types: let a: Bar; b: Foo; ...
+-Variable declaration space: stuff you can use as a variable. var someVar = 123; var obj = SomeClass; ...
+-by default everything belong to the global namespace. A var in a file is available in another file, and this is DANGEROUS
+-file modules resolve this risk: if you have an import or export at the root level of a TS file, you are creating a local scope in this file. export var foo = "something" // no more global 
+-if you want to use foo, you've to import: import {foo} from "./someModule"; You're also defining that file w/ a "local scope" too.
+-TS calls files that use external modules as "module"
+-ES modules: don't use, they're not yet ready
+-commonjs modules: best module option
+-recommended import syntax: ES module syntax
+-export recommended ways: export let something = 123; export let someObject = { foo: "yeap" }; export { someThing, someOther }; export {someThing as someFriendlyName }
+-import recommended ways: import {someThing, someOther } from './someModule'; import {someThing as friendlyName } from './someModule'; import * as foo from './foo'; import './someModule';
+-therefore: set "moduleResolution: commonjs" in tsconfig.js (implied if you set "module:commonjs"
+-you can import from "./someFile" or "someModule"
+-if you import "foo", it checks: foo.ts, a dir foo with index.ts (./foo/index.ts) or a package.json inside with "foo" in the "types" key or "main" key
+-declaring a global module: you can declare something available globally. In module 'foo': { export var bar: number }. Then you can import like that import * as foo from foo
+-import/require: import foo = require('foo') imports 1)type of the foo module; 2)imports only if effectively used, optimizing performance
+-globals.d.ts: "magically" give to global namespace types and/or interfaces you want to use 
+-namespaces: allow you to manage names in global space, so define namespace DemoNS { export function foo(){console.log("foo")}, export function bar(){console.log("bar")} }. Call DemoNS.foo()
+-prefer external modules over NS. NS are not widely used
+-NODE - just do it:
+-npx: it allows you to execute CLI/binaris in modules, directly, w/o npm ceremony
+-node ts project: npm init, install typescript, install @types/node, install tslint, install tslint plugin vscode, tsc --init (tsconfig.json) (npx tsc --init --rootDir src --outDir lib --esModuleInterop --resolveJsonModule --target es6 --lib 'es6, dom' --module commonjs). All sources goes in /src, generated JS goes in /lib
+-ts-node: live compile + run
+-tslint --init
+-nodemon: every change reload node	
+-mkdir src; mkdir lib; touch src/index.ts
+-edit package.json: 
+"scripts": {
+"start": "npm run build:live",
+"build": "tsc -p .",
+"build:live": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts"
+}
+-run npm start and you're done
+TS TYPE SYSTEM
+-primitive types: number, string, boolean
+-Arrays: annotated like :<type>[]
+-Interfaces: core way in TS to compose object w/ multiple annotations(e.g: interface Identity {name: string, surname: string}; var me: Identity; name = {name: "alberto", surname: "de Prezzo"}
+-inline type annotation: instead of interface, you define a type var person: {name: string, surname: string}; person = {name: "mario", surname:"rossi"}
+-special types: any, null, undefined, void 
+-any: set to something can be everything. Used to "disable" static typing analysis. var boo: any; boo = 'foo'; boo = 123; //correct, but not recommended 
+-null and undefined: like any, they can be assigned to anything you want (number, string, boolean,... )
+-void: says that function doesn't have return type 
+-Generics: allow you to have constraints between variables: function 
+-Union Type: you want to restrict type one of some types (inputParam:string|number)
+-Intersection Type: you say that type will be one & another (e.g: function extend(): T & V { //say that, for example, an array contains both types
+-Tuple Type: you say that type will be one of the input tuple. E.g: var nameNumber: [string, number], so nameNumber = [13, 12] //will be wrong!
+-Type Alias: create your own type (you can define a function signature (data: string) => void, or an object {data: string}). Say a var can be string or number, you set: type strOrNum = string|number, and use it: var foo:strOrNum = "abc"; or var:strOrNum foo=123 //var foo:strOrNum = true //error!
+-declaration file: .d.ts, used to use some 3rd party JS. Contains typed definitions. E.g: create jquery.d.ts, with: declare var $: any; or w/ type: declare type JQuery = any; declare var $: JQuery
+-DefinitelyTyped: repository of JS declaration files.
+@types: npm install @types/jquery, install global and types definitions
+-Global types definitions: included automatically (e.g: $)
+-Module types definitions: preferred way, for example to use $ you'll code import * as $ from "jquery"
+-controlling globals: in tsconfig.js you define only types you want to use bring globally in your global. Everything else you install, will not be brought. //compilerOptions { compilerOptions: {"types": ["jquery"] } }
+-declare: describe code that exists elsewhere, and put it in a .ts or .d.ts file //declare var foo: any;
+-ambient declarations are a promise to the compiler: if it miss at runtime, things break w/o warnings 
+-.d.ts file: recommended, each definition must be prefixed by "declare" keyword, so it's clear that there is no code emitted by TS, 
+-variables: e.g. for node, in .d.ts you have declare var process: any;, so you can consume it (process.exit())
+-interfaces in d.ts: you can declare interfaces on it, and declare vars that use them 
+-enum: Foo { one, two, three } // Foo.[0] //results: 0
+-enum: XYZ { one = "foo", two = "bar", three = "baz" } // XYZ.one //results: foo
+-lib.d.ts: comes with every installation of TS, brings ambient declarations for common JS stuff. You can avoid it w/ noLib: true in tsconfig.json //e.g: 123.toString() is checked in there
+-global.d.ts: define interfaces in there, and will  be available everywhere (aka "open ended")
