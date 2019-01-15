@@ -22,11 +22,13 @@ Variables declared with the var keyword can not have Block Scope.
 Variables declared inside a block {} can be accessed from outside the block.
 
 ```
+
+```javascript
 { 
   var x = 2; 
 }
 // x CAN be used here
-
+```
 
 Variables declared with the let keyword can have Block Scope.
 Variables declared inside a block {} can not be accessed from outside the block:
