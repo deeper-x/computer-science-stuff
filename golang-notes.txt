@@ -120,19 +120,16 @@ type demoStruct struct {
 		i int
 		y string
 	}
-	a := []struct {
-		i int
-		v string
-	}{
-		{1, "foo"},
-		{2, "bar"},
-		{3, "baz"},
+	a := []Foo{
+	    {1, "foo"},
+	    {2, "bar"},
+	    {3, "baz"},
 	}
 	fmt.Println(a[0]) //gets {1 foo}
 
 -slice to begin or to end, like in Python: s[:1], or s[2:]
 -array length can be measured with len(inputArray)
--check for empty slice must be done w/ nil: e.g: if is emptySlice == nil { //do somethins }
+-check for empty slice must be done w/ nil: e.g: if is emptySlice == nil { //do something }
 -slice (array w/ dynamic size): []bool{true, false, false}
 -slice length: len() number of elements it contains
 -slice capacity: cap() number of elements in underlying array, from where slice is reading
