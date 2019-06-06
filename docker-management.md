@@ -16,5 +16,5 @@ $ docker cp <filename> <CONTAINER_ID>/path
 
 Start single container:
 ```bash
-$ sudo docker start 744a56462fc6
+$ sudo docker start <CONTAINER_ID>
 ```
