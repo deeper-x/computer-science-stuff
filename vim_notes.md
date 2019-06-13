@@ -28,3 +28,8 @@ browse tabs:
 <CTRL> and <PAGE_UP>
 <CTRL> and <PAGE_DOWN>
 ```
+
+get current file_name:
+```
+:echo @%
+```
