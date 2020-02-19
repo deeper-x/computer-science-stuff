@@ -1,2 +1,3 @@
-# computer-science-stuff
-Random stuff related to computer science. Personal notes for my own use.
+# Cheatsheets and Documentation
+
+A list of files with some personal notes/cheatsheets. Just a collection of random stuff I use in courses, talks and meetings.

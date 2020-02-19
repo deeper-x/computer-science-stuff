@@ -1,0 +1,92 @@
+## Docker CLI commands list ##
+
+## Display Docker version and info
+$ docker --version
+$ docker version
+$ docker info
+
+## Execute Docker image
+$ docker run hello-world
+
+## List Docker images
+$ docker image ls
+
+## List Docker containers (running, all, all in quiet mode)
+$ docker container ls
+$ docker container ls --all
+$ docker container ls -aq
+
+# create a new image:
+$ mkdir new_dir && cd new_dir
+
+# Define a container with Dockerfile in SOF-EOF structure
+$ touch Dockerfile
+
+####  SOF ####
+# Use an official Python runtime as a parent image
+FROM python:3.6-slim
+
+# Set the working directory to /app
+WORKDIR /my_app
+
+# Copy the current directory contents into the container at /app
+ADD . /my_app
+
+# Install any needed packages specified in requirements.txt
+RUN pip install --trusted-host pypi.python.org -r requirements.txt
+
+# Make port 80 available to the world outside this container
+EXPOSE 80
+
+# Run my_app.py when the container launches
+CMD ["python3.6", "my_app.py"]
+##### EOF ####
+
+# create project files
+$ touch requirements.txt # <<< insert packages here
+$ touch my_app.py # <<< code 
+
+# Build app and give it a friendly name
+$ docker build -t my_app_friendly_name .
+
+# Show built image in your machine’s local Docker image registry
+$ docker image ls
+
+# run app in normal mode
+$ docker run -p 4000:80 my_app_friendly_name
+
+# ... or in detached mode
+$ docker run -d -p 4000:80 my_app_friendly_name
+
+# You get the long container ID for your app and then are kicked back to your terminal. Show it:
+$ docker container ls
+
+# Stop the process, using the CONTAINER ID:
+$ docker container stop <CONTAINER_ID>
+
+# Share your image
+$ docker login
+>> create online repository
+$ docker tag my_app_friendly_name 4LbDP/repo_4LbDP:tag1 # point to your docker repo you create online
+
+# See your newly tagged image.
+$ docker image ls # see new tagged image
+
+# Publish the image
+$ docker push 4LbDP/repo_4LbDP:tag1
+
+# Pull and run the image from the remote repository
+$ docker run -p 4000:80 4LbDP/repo_4LbDP:tag1
+
+
+
+
+
+
+
+
+
+
+
+
+
