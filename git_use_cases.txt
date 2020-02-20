@@ -74,6 +74,9 @@ $ git pull git://info.example.com/ nitfol <4>
 $ git reset --soft HEAD~1 #reset by 1 commit, keeping data in stage. 
 $ git reset --hard HEAD~2 #reset cleaning stage too, coming back by 2 commits 
 
+# Reset all changes in directory:
+$ git reset --hard
+
 # rm: Remove files from working index. Instead of doing "rm" via shell, followed by "git add <removed_file>", it does all in one step.
 $ git rm module_X/\*.c
 
