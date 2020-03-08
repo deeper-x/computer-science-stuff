@@ -1,0 +1,28 @@
+1. FORK
+2. git clone <REPO_URL>
+3. cd <REPO>
+4. git checkout -b <new_branch>
+
+5. git add [...]
+5a. git rm --cached <file> # UNDO git add
+
+6. git commit -m '.....'
+6a. git update-ref -d HEAD # UNDO first commit
+6b. git reset --soft HEAD~1 # UNDO last commit, leaving on stage
+6c. git reset --mixed HEAD~1 # UNDO last commit, leaving untouched in working dir
+6d. git reset --hard HEAD~1 # UNDO last commit, destroying changes in working dir
+
+7. git push origin <new_branch>
+8. OPEN PR
+
+9. git remote add upstream <ORIGINAL_REPO_URL> # upstream is the original repo
+
+10. git checkout master # checkout to master
+11. git fetch upstream # SYNC WITH UPSTREAM, CREATING LOCAL BRANCH upstream/master
+
+12a. git merge upstream/master # MERGE INTO MASTER, W/O TOUCHING HISTORY 
+12b. git rebase upstream/master # MERGE INTO MASTER rewriting history (more clean)
+
+13. git push origin master # if you rebased (12b), you have to use git push -f origin master
+
+
