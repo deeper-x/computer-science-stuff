@@ -1,3 +1,6 @@
+-always use === and !=== for comparison
+-equality check is for reference identity check (var foo = {} and var bar = foo are the same object)
+-== null to check if is null && undefined. Do not distinct them
 -undefined: something not initialized
 -null: something not available
 -(typeof(someNotInitialized) == undefined) // true
